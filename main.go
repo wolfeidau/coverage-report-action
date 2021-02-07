@@ -53,19 +53,19 @@ func main() {
 
 	log.Debug().Msg("processing event")
 
-	event, err := ioutil.ReadFile(cfg.GitHubEventPath)
+	event, err := ioutil.ReadFile(cfg.GithubEventPath)
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to load event")
 	}
 
 	var pr *github.PullRequestEvent
 
-	switch cfg.GitHubEventName {
+	switch cfg.GithubEventName {
 	case "pull_request", "pull_request_target":
 
 		err = json.Unmarshal(event, &pr)
 	default:
-		log.Warn().Msgf("unable to process event :%s", cfg.GitHubEventName)
+		log.Warn().Msgf("unable to process event :%s", cfg.GithubEventName)
 		return
 	}
 
