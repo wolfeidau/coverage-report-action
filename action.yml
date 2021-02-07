@@ -3,6 +3,9 @@ name: 'Coverage Report'
 author: 'Mark Wolfe'
 description: 'Generates a coverage report comment on Pull Requests'
 inputs:
+  github-token:
+    description: 'Github token for the repository'
+    required: true
   coverage-report:
     description: 'path to coverage file'
     required: true
