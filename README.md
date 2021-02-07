@@ -39,7 +39,7 @@ test: bin/gocover-cobertura
 # Usage
 
 ```
-uses: wolfeidau/coverage-report-action@v1
+uses: wolfeidau/coverage-report-action@v7
 with:
     github-token: ${{ secrets.github_token }}
     coverage-report: coverage.xml
