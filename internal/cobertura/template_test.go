@@ -28,6 +28,7 @@ func Test_humanizePercentage(t *testing.T) {
 		})
 	}
 }
+
 func TestRunTemplate(t *testing.T) {
 	type args struct {
 		cr *CoverageReport
@@ -46,12 +47,7 @@ func TestRunTemplate(t *testing.T) {
 				LinesValid:   "498",
 			}},
 			wantWr: `
-# Test coverage
-
-**Total:** 65.26%</br>
-
-**Lines Covered:** 325</br>
-**Lines Valid:** 498</br>
+**coverage:** 65.26% of statements
 `,
 		},
 	}

@@ -11,12 +11,7 @@ import (
 )
 
 var reportTemplate = `
-# Test coverage
-
-**Total:** {{.LineRate | humanizePercentage}}%</br>
-
-**Lines Covered:** {{.LinesCovered}}</br>
-**Lines Valid:** {{.LinesValid}}</br>
+**coverage:** {{.LineRate | humanizePercentage}}% of statements
 `
 
 // RunTemplate run the report template
