@@ -1,7 +1,10 @@
 # action.yml
 name: 'Coverage Report'
-author: 'Mark Wolfe'
+author: 'Mark Wolfe <mark@wolfe.id.au>'
 description: 'Generates a coverage report comment on Pull Requests'
+branding:
+  icon: 'message-square'  
+  color: 'blue'
 inputs:
   github-token:
     description: 'Github token for the repository'
