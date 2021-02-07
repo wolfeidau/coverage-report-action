@@ -1,0 +1,14 @@
+# action.yml
+name: 'Coverage Report'
+author: 'Mark Wolfe'
+description: 'Generates a coverage report comment on Pull Requests'
+inputs:
+  coverage-report:
+    description: 'path to coverage file'
+    required: true
+runs:
+  using: docker
+  image: Dockerfile
+  args:
+  - '--coverage-report'
+  - ${{ inputs.coverage-report }}
