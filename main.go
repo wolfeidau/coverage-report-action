@@ -81,7 +81,7 @@ func main() {
 
 	client := github.NewClient(tc)
 
-	comment, _, err := client.PullRequests.CreateComment(ctx, ptr.ToString(pr.Repo.Owner.Login), ptr.ToString(pr.Repo.Name), ptr.ToInt(pr.Number), &github.PullRequestComment{
+	comment, _, err := client.Issues.CreateComment(ctx, ptr.ToString(pr.Repo.Owner.Login), ptr.ToString(pr.Repo.Name), ptr.ToInt(pr.Number), &github.IssueComment{
 		Body: ptr.String(buf.String()),
 	})
 	if err != nil {
