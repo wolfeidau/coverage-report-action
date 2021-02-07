@@ -29,7 +29,7 @@ func (rep Reporter) LogLevel() zerolog.Level {
 }
 
 func (rep Reporter) ValidateToken() (string, error) {
-	githubToken := githubactions.GetInput("GITHUB_TOKEN")
+	githubToken := githubactions.GetInput("github-token")
 	if githubToken != "" {
 		return githubToken, nil
 	}
