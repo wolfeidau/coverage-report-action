@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/alecthomas/kong"
@@ -81,9 +82,32 @@ func main() {
 
 	client := github.NewClient(tc)
 
-	comment, _, err := client.Issues.CreateComment(ctx, ptr.ToString(pr.Repo.Owner.Login), ptr.ToString(pr.Repo.Name), ptr.ToInt(pr.Number), &github.IssueComment{
-		Body: ptr.String(buf.String()),
-	})
+	comments, _, err := client.Issues.ListComments(ctx, ptr.ToString(pr.Repo.Owner.Login), ptr.ToString(pr.Repo.Name), ptr.ToInt(pr.Number), &github.IssueListCommentsOptions{})
+	if err != nil {
+		log.Fatal().Err(err).Msg("failed to create comment")
+	}
+
+	var commentID *int64
+
+	for _, comment := range comments {
+		if strings.Contains(ptr.ToString(comment.Body), cobertura.Footer) {
+			commentID = comment.ID
+		}
+	}
+
+	var comment *github.IssueComment
+
+	// if the comment exists update it, otherwise create a new one
+	if commentID != nil {
+		comment, _, err = client.Issues.EditComment(ctx, ptr.ToString(pr.Repo.Owner.Login), ptr.ToString(pr.Repo.Name), ptr.ToInt64(commentID), &github.IssueComment{
+			Body: ptr.String(buf.String()),
+		})
+	} else {
+		comment, _, err = client.Issues.CreateComment(ctx, ptr.ToString(pr.Repo.Owner.Login), ptr.ToString(pr.Repo.Name), ptr.ToInt(pr.Number), &github.IssueComment{
+			Body: ptr.String(buf.String()),
+		})
+	}
+
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to create comment")
 	}
@@ -96,6 +120,6 @@ func main() {
 	}
 
 	if !ok {
-		log.Fatal().Msgf("line rate: %s failed to meet minimum coverage threshold: %n", report.LineRate, cfg.MinimumCoverage)
+		log.Fatal().Msgf("line rate: %s failed to meet minimum coverage threshold: %d", report.LineRate, cfg.MinimumCoverage)
 	}
 }
