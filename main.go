@@ -65,6 +65,9 @@ func main() {
 	case "pull_request", "pull_request_target":
 
 		err = json.Unmarshal(event, &pr)
+		if err != nil {
+			log.Fatal().Err(err).Msg("failed to load json")
+		}
 	default:
 		log.Warn().Msgf("unable to process event :%s", cfg.GithubEventName)
 		return
@@ -107,9 +110,8 @@ func main() {
 			Body: ptr.String(buf.String()),
 		})
 	}
-
 	if err != nil {
-		log.Fatal().Err(err).Msg("failed to create comment")
+		log.Fatal().Err(err).Msg("failed to create/update comment")
 	}
 
 	log.Info().Int64("id", ptr.ToInt64(comment.ID)).Msg("comment created")
