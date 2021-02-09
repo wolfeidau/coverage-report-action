@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
+	"strconv"
 )
 
 // CoverageReport generated from the coverage-04.dtd
@@ -83,4 +84,14 @@ func ParseCoverageReport(r io.Reader) (*CoverageReport, error) {
 	}
 
 	return report, nil
+}
+
+// MeetsThreshold check if the line rate meets the minimum coverage threshold
+func MeetsThreshold(lineRate string, minimumCoverage int) (bool, error) {
+	ft, err := strconv.ParseFloat(lineRate, 64)
+	if err != nil {
+		return false, err
+	}
+
+	return int(ft*100) > minimumCoverage, nil
 }

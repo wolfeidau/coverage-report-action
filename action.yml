@@ -12,9 +12,14 @@ inputs:
   coverage-report:
     description: 'path to coverage file'
     required: true
+  minimum-coverage:
+    description: 'Minimum allowed coverage.'
+    required: true
 runs:
   using: docker
   image: Dockerfile
   args:
   - '--coverage-report'
   - ${{ inputs.coverage-report }}
+  - '--minimum-coverage'
+  - ${{ inputs.minimum-coverage }}

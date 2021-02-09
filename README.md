@@ -39,11 +39,22 @@ test: bin/gocover-cobertura
 # Usage
 
 ```
-uses: wolfeidau/coverage-report-action@v7
+uses: wolfeidau/coverage-report-action@v1
 with:
     github-token: ${{ secrets.github_token }}
     coverage-report: coverage.xml
 ```
+
+# Output
+
+![coverage](https://img.shields.io/badge/coverage%20total-11.65%25-green?style=for-the-badge)
+
+| Package  | Coverage of Statements | threshold (10%) |
+| ------------- | ------------- | ------------- |
+| github.com/wolfeidau/coverage-report-action/internal/cobertura  | 38.71% | ✅ |
+| github.com/wolfeidau/coverage-report-action/internal/flags  | 0.00% | ❌ |
+| github.com/wolfeidau/coverage-report-action  | 0.00% | ❌ |
+| **total** | 11.65% | ✅ |
 
 # License
 

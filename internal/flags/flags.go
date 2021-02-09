@@ -10,6 +10,7 @@ import (
 // Reporter reporter flags
 type Reporter struct {
 	CoverageReport   string
+	MinimumCoverage  int
 	Verbose          bool
 	GithubToken      string `env:"GITHUB_TOKEN"`
 	GithubEventName  string `env:"GITHUB_EVENT_NAME"`
@@ -28,6 +29,7 @@ func (rep Reporter) LogLevel() zerolog.Level {
 	return zerolog.InfoLevel
 }
 
+// ValidateToken check each possible source and validate the Github token isn't empty
 func (rep Reporter) ValidateToken() (string, error) {
 	githubToken := githubactions.GetInput("github-token")
 	if githubToken != "" {
@@ -40,17 +42,3 @@ func (rep Reporter) ValidateToken() (string, error) {
 
 	return "", errors.New("missing required GITHUB_TOKEN")
 }
-
-// func (rep Reporter) GetRepo() (string, string, error) {
-// 	var owner string
-
-// 	if owner = rep.GitHubOwner; owner == "" {
-// 		owner = rep.GitHubActor
-// 	}
-
-// 	if rep.GitHubRepository == "" {
-
-// 	}
-
-// 	repoParts := rep.GitHubRepository
-// }

@@ -46,7 +46,7 @@ func main() {
 
 	buf := new(bytes.Buffer)
 
-	err = cobertura.RunTemplate(buf, report)
+	err = cobertura.RunTemplate(buf, report, cfg.MinimumCoverage)
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to run coverage template")
 	}
@@ -89,4 +89,13 @@ func main() {
 	}
 
 	log.Info().Int64("id", ptr.ToInt64(comment.ID)).Msg("comment created")
+
+	ok, err := cobertura.MeetsThreshold(report.LineRate, cfg.MinimumCoverage)
+	if err != nil {
+		log.Fatal().Err(err).Msg("failed to check threshold")
+	}
+
+	if !ok {
+		log.Fatal().Msgf("line rate: %s failed to meet minimum coverage threshold: %n", report.LineRate, cfg.MinimumCoverage)
+	}
 }
