@@ -36,6 +36,10 @@ test: bin/gocover-cobertura
 
 **Required** The path to the cobertura format coverage file.
 
+## `minimum-coverage`
+
+**Required** Minimum allowed coverage as an integer, eg. `80` represents 80% minimum lines covered.
+
 # Usage
 
 ```
@@ -43,6 +47,7 @@ uses: wolfeidau/coverage-report-action@v1
 with:
     github-token: ${{ secrets.github_token }}
     coverage-report: coverage.xml
+	minimum-coverage: 80
 ```
 
 # Output
