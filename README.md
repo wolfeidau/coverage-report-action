@@ -42,15 +42,37 @@ test: bin/gocover-cobertura
 
 # Usage
 
-```
-uses: wolfeidau/coverage-report-action@v1
-with:
-    github-token: ${{ secrets.github_token }}
-    coverage-report: coverage.xml
-	minimum-coverage: 80
+```yaml
+# must use pull request to ensure all required attributes are present for the coverage comment 
+# action to be able to create/update the comment
+on: [pull_request]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.15.x
+        id: go	
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
+	  # run make ci target which runs tests and outputs coverage.xml
+      - name: CI Tasks
+        run: make ci
+	  # run the report task which loads coverage.xml and then posts a comment with coverage summary
+	  - name: Report
+        uses: wolfeidau/coverage-report-action@v1
+          with:
+          github-token: ${{ secrets.github_token }}
+          coverage-report: coverage.xml
+          minimum-coverage: 80
 ```
 
 # Output
+
+This will maintain a single comment in your PR, which is updated each time changes are pushed to the pull request.
 
 ![coverage](https://img.shields.io/badge/coverage%20total-11.65%25-green?style=for-the-badge)
 
