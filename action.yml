@@ -21,7 +21,7 @@ inputs:
     default: false
 runs:
   using: docker
-  image: docker://ghcr.io/wolfeidau/coverage-report-action:v1
+  image: docker://ghcr.io/wolfeidau/coverage-report-action:v2
   args:
   - '--coverage-report'
   - ${{ inputs.coverage-report }}
