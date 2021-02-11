@@ -47,7 +47,7 @@ func main() {
 
 	buf := new(bytes.Buffer)
 
-	err = cobertura.RunTemplate(buf, report, cfg.MinimumCoverage)
+	err = cobertura.RunTemplate(buf, report, cfg.MinimumCoverage, cfg.GetShowFiles())
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to run coverage template")
 	}

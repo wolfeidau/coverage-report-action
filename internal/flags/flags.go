@@ -2,8 +2,10 @@ package flags
 
 import (
 	"errors"
+	"strconv"
 
 	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"github.com/sethvargo/go-githubactions"
 )
 
@@ -11,6 +13,8 @@ import (
 type Reporter struct {
 	CoverageReport   string
 	MinimumCoverage  int
+	ShowFiles        bool
+	ShowClassNames   bool
 	Verbose          bool
 	GithubToken      string `env:"GITHUB_TOKEN"`
 	GithubEventName  string `env:"GITHUB_EVENT_NAME"`
@@ -41,4 +45,19 @@ func (rep Reporter) ValidateToken() (string, error) {
 	}
 
 	return "", errors.New("missing required GITHUB_TOKEN")
+}
+
+// GetShowFiles resolve the show files option from either github inputs or the flag
+func (rep Reporter) GetShowFiles() bool {
+	showFiles := githubactions.GetInput("show-files")
+	if showFiles != "" {
+		b, err := strconv.ParseBool(showFiles)
+		if err != nil {
+			log.Warn().Err(err).Str("showFiles", showFiles).Msg("failed to parse showFiles")
+			return false
+		}
+		return b
+	}
+
+	return rep.ShowFiles
 }

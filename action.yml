@@ -15,6 +15,10 @@ inputs:
   minimum-coverage:
     description: 'Minimum allowed coverage.'
     required: true
+  show-files:
+    description: 'Show line rate for files.'
+    required: true
+    default: false
 runs:
   using: docker
   image: docker://ghcr.io/wolfeidau/coverage-report-action:v1
